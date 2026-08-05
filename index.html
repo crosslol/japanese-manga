@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1c1c1c">
+<title>漫画日本語塾｜看漫画学日语</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-ja">漫画日本語塾</span>
+    <span class="brand-zh">MANGA JAPANESE DOJO</span>
+  </div>
+  <div class="searchbox">
+    <input id="searchInput" type="text" placeholder="搜索语法 / 单词 / 拟声词 / 句式…" autocomplete="off">
+    <button id="searchBtn">搜索</button>
+  </div>
+  <div class="overall" title="总掌握进度">
+    <div class="overall-bar"><div id="overallFill"></div></div>
+    <span id="overallText">0%</span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="home" class="active">🏠 首页</button>
+  <button data-tab="grammar">📚 语法</button>
+  <button data-tab="patterns">💬 句式</button>
+  <button data-tab="contra">✂️ 缩约</button>
+  <button data-tab="vocab">📖 单词</button>
+  <button data-tab="giseigo">💥 拟声拟态</button>
+  <button data-tab="lookup">🔍 查词</button>
+  <button data-tab="reading">🎬 实战阅读</button>
+  <button data-tab="quiz">🧠 测验</button>
+  <button data-tab="flash">🃏 卡片</button>
+</nav>
+
+<div id="searchResults" class="search-results hidden"></div>
+
+<main>
+  <!-- ============ 首页 ============ -->
+  <section id="home" class="panel active">
+    <div class="hero">
+      <div class="hero-impact">
+        <span class="impact">マンガで日本語</span>
+        <h1>看漫画，学日语</h1>
+        <p class="hero-sub">针对漫画里<b>90%以上</b>会出现的语法、单词、口语缩约与拟声拟态词，<br>用最短路径让你直接上手读生肉。</p>
+        <div class="hero-stats" id="heroStats"></div>
+        <div class="hero-cta">
+          <button class="cta" data-goto="grammar">开始学语法 →</button>
+          <button class="cta ghost" data-goto="reading">先看实战阅读 →</button>
+        </div>
+      </div>
+      <div class="hero-bubble">「おい、待てよ！<br>まだ読めるようになってないのか？」<br><span class="bubble-sub">——学完这些，你就看得懂了。</span></div>
+    </div>
+
+    <h2 class="section-title">🗺️ 四周速通路线</h2>
+    <div class="roadmap" id="roadmap"></div>
+
+    <h2 class="section-title">✍️ 五十音（先花两小时认熟）</h2>
+    <div class="kana-wrap">
+      <div class="kana-block">
+        <h3>平假名 Hiragana</h3>
+        <table id="kanaHira"></table>
+      </div>
+      <div class="kana-block">
+        <h3>片假名 Katakana</h3>
+        <table id="kanaKata"></table>
+      </div>
+    </div>
+
+    <h2 class="section-title">💡 读漫画的六个心法</h2>
+    <ol class="tips">
+      <li><b>先猜再查</b>：对话框里有图、有上下文，先猜意思，猜错再查，记忆更深。</li>
+      <li><b>只查“卡住理解”的词</b>：不求每个词都懂，先把句子大意看懂。</li>
+      <li><b>重复即记忆</b>：一个词在漫画里出现 3 次以上，基本就记住了——所以高频词表比生僻词重要一万倍。</li>
+      <li><b>选对入门题材</b>：4 格漫画、日常系、搞笑系对话最简单；战斗系、异世界系词汇最套路化，也适合；悬疑/文学向最难。</li>
+      <li><b>注意“角色语”</b>：武士说「でござる」、大小姐说「ですわ」——这是人设，不是标准语法，看懂意思即可，别模仿。</li>
+      <li><b>工具推荐</b>：MOJi辞書 / 沪江小D / Jisho（查词）、chiitranslate（OCR 截图翻译）、weblio（文法详解）。</li>
+    </ol>
+
+    <div class="disclaimer">📌 本页内容覆盖漫画对话中最高频的语法与词汇（面向 N5~N3 核心 + 口语/漫画特有表达），配原创例句与翻译，不含任何版权漫画文本。</div>
+  </section>
+
+  <!-- ============ 语法 ============ -->
+  <section id="grammar" class="panel">
+    <div class="panel-head">
+      <h2>📚 语法总表 <span class="count" id="grammarCount"></span></h2>
+      <p class="hint">分三级：LV1 地基 → LV2 高频 → LV3 漫画特有。点 ✓ 标记已掌握，进度会保存。</p>
+    </div>
+    <div class="chips" id="grammarChips"></div>
+    <div class="card-list" id="grammarList"></div>
+  </section>
+
+  <!-- ============ 句式 ============ -->
+  <section id="patterns" class="panel">
+    <div class="panel-head">
+      <h2>💬 漫画高频句式速查 <span class="count" id="patternsCount"></span></h2>
+      <p class="hint">读漫画最常撞上的 40 个句式公式，背熟它们，对话基本无障碍。</p>
+    </div>
+    <div class="card-list" id="patternsList"></div>
+  </section>
+
+  <!-- ============ 缩约 ============ -->
+  <section id="contra" class="panel">
+    <div class="panel-head">
+      <h2>✂️ 口语缩约对照表 <span class="count" id="contraCount"></span></h2>
+      <p class="hint">漫画对话里几乎全是缩约形。左边是口语写法，右边是标准形。</p>
+    </div>
+    <div class="contra-grid" id="contraList"></div>
+  </section>
+
+  <!-- ============ 单词 ============ -->
+  <section id="vocab" class="panel">
+    <div class="panel-head">
+      <h2>📖 漫画高频单词 <span class="count" id="vocabCount"></span></h2>
+      <p class="hint">按主题分类，共 12 类。点 ✓ 标记已掌握。</p>
+    </div>
+    <div class="chips" id="vocabChips"></div>
+    <div class="word-grid" id="vocabGrid"></div>
+  </section>
+
+  <!-- ============ 拟声拟态 ============ -->
+  <section id="giseigo" class="panel">
+    <div class="panel-head">
+      <h2>💥 拟声拟态词（漫画灵魂） <span class="count" id="giseigoCount"></span></h2>
+      <p class="hint">拟声拟态词撑起漫画一半的画面感。按场景分类速记。</p>
+    </div>
+    <div class="chips" id="giseigoChips"></div>
+    <div class="word-grid" id="giseigoGrid"></div>
+  </section>
+
+  <!-- ============ 查词 ============ -->
+  <section id="lookup" class="panel">
+    <div class="panel-head">
+      <h2>🔍 读音・释义查询</h2>
+      <p class="hint">输入日语单词或汉字（如「躊躇」「猫」「承知」）：内置 230+ 常用汉字读音表（离线可用，音读/训读），联网时再查 Jisho 词典（含读音+英文释义）。查不到也能一键跳转 Jisho 网页版。在手机上看漫画遇到不会读的词，切到这里一查就行。</p>
+    </div>
+    <div class="lookup-box">
+      <input id="lkInput" type="text" placeholder="例如：躊躇 / 猫 / わくわく / 承知" autocomplete="off">
+      <button id="lkBtn">查询</button>
+    </div>
+    <div id="lkResult"></div>
+  </section>
+
+  <!-- ============ 实战阅读 ============ -->
+  <section id="reading" class="panel">
+    <div class="panel-head">
+      <h2>🎬 实战阅读：漫画式对白精读</h2>
+      <p class="hint">12 段原创漫画风对白，逐词拆解 + 语法点标注。建议学完 LV1/LV2 后再来。</p>
+    </div>
+    <div class="reading-list" id="readingList"></div>
+  </section>
+
+  <!-- ============ 测验 ============ -->
+  <section id="quiz" class="panel">
+    <div class="panel-head">
+      <h2>🧠 综合测验（30 题）</h2>
+      <p class="hint">覆盖助词、缩约、终助词、拟声词、词汇、授受、条件……检验你的“漫画语感”。</p>
+    </div>
+    <div id="quizBox"></div>
+  </section>
+
+  <!-- ============ 卡片 ============ -->
+  <section id="flash" class="panel">
+    <div class="panel-head">
+      <h2>🃏 记忆卡片</h2>
+      <p class="hint">点击卡片翻面，会的点「记住了」，不会的点「再学一次」，最后只会复习没记住的。</p>
+    </div>
+    <div id="flashBox"></div>
+  </section>
+</main>
+
+<footer>漫画日本語塾 · 纯本地单页应用，无联网依赖 · 例句均为原创 · 祝早日啃下生肉！</footer>
+
+<div id="toast"></div>
+
+<script src="data-grammar.js"></script>
+<script src="data-words.js"></script>
+<script src="data-more.js"></script>
+<script src="data-kanji.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
