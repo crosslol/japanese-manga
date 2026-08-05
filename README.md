@@ -2,6 +2,8 @@
 
 看漫画学日语的针对性学习网页：语法 148 条、句式 40 条、口语缩约 16 组、单词 297 词、拟声拟态 112 词、常用汉字读音 230 字、实战阅读 12 段、测验 30 题、记忆卡片。
 
+线上地址（GitHub Pages）：<https://crosslol.github.io/japanese-manga/>
+
 纯静态站点，无构建、无依赖，直接打开 `index.html` 即可使用（也可部署到 GitHub Pages / Netlify 等任意静态托管）。
 
 ## 文件说明
